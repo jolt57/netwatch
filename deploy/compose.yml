@@ -15,6 +15,16 @@ services:
       - host.docker.internal:host-gateway
     restart: unless-stopped
 
+  blackbox:
+    image: prom/blackbox-exporter:v0.29.0
+    command:
+      - --config.file=/config/blackbox.yml
+    volumes:
+      - ./blackbox/blackbox.yml:/config/blackbox.yml:ro
+    cap_add:
+      - NET_RAW
+    restart: unless-stopped 
+
   grafana:
     image: grafana/grafana:13.2.3
     environment:
